@@ -110,12 +110,14 @@ export default function SignInSide(props) {
         .auth()
         .createUserWithEmailAndPassword(login, password)
         .then(() => {
-          if (firebase.auth().currentUser !== null) {
-            firebase.auth().currentUser.updateProfile({
-              displayName: name
-            });
-            const db = firebase.firestore();
-            const userinfo = db.collection("userinfo").doc(user.uid);
+          const user = firebase.auth().currentUser;
+                        if(user !== null){
+                            user.updateProfile({
+                                displayName: name
+                            })
+                            const db = firebase.firestore();
+                            const userinfo = db.collection("userinfo").doc(user.uid);
+
 
             userinfo.set({
               all: [],
