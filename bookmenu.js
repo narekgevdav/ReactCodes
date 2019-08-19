@@ -4,7 +4,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import firebase from "../Firebase/Firebase";
-import { func } from "prop-types";
+
 
 const ITEM_HEIGHT = 48;
 
@@ -13,7 +13,7 @@ export default function BookMenu(props) {
   const open = Boolean(anchorEl);
   const user = firebase.auth().currentUser;
   const db = firebase.firestore();
-  const location = props.status.params["key"];
+  const location = props.status.params.key;
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
@@ -24,6 +24,7 @@ export default function BookMenu(props) {
   }
 
   function handleRead() {
+    console.log(props.status)
     const userinfo = db.collection("userinfo").doc(user.uid);
     userinfo.update({
       all: firebase.firestore.FieldValue.arrayUnion(props.ISBN),
@@ -143,7 +144,7 @@ export default function BookMenu(props) {
               Reading Now
             </MenuItem>
           )}
-          <MenuItem key={"remove"} selected={false} onClick={handleRemove}>
+          {location !== "else" && (<MenuItem key={"remove"} selected={false} onClick={handleRemove}>
             Remove from my library
           </MenuItem>
           )}
